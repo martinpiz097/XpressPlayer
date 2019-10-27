@@ -23,6 +23,7 @@ import org.xpressplayer.xpressplayer.gui.util.UIUtil;
 import org.xpressplayer.xpressplayer.util.TrackUtil;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JTable;
 import javax.swing.filechooser.FileFilter;
 import org.muplayer.audio.model.TrackInfo;
 import org.xpressplayer.xpressplayer.gui.model.TCRSongs;
@@ -149,6 +150,7 @@ public class FormPlayer extends javax.swing.JFrame {
             public void onStarted() {
                 tblSongs.setModel(new TMSongs());
                 tblSongs.setDefaultRenderer(String.class, new TCRSongs());
+                btnPlay.setIcon(new ImageIcon(getClass().getResource("/img/pause.png")));
             }
 
             @Override
@@ -191,8 +193,8 @@ public class FormPlayer extends javax.swing.JFrame {
         btnNext = new javax.swing.JButton();
         trackBar = new javax.swing.JProgressBar();
         lblTitleFooter = new javax.swing.JLabel();
-        btnMute = new javax.swing.JToggleButton();
         btnLoadMusic = new javax.swing.JButton();
+        btnMute = new javax.swing.JButton();
         panelCenter = new javax.swing.JPanel();
         panelSong = new javax.swing.JPanel();
         lblCover = new javax.swing.JLabel();
@@ -237,17 +239,17 @@ public class FormPlayer extends javax.swing.JFrame {
         lblTitleFooter.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTitleFooter.setText("Titulo - Artista");
 
-        btnMute.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/mute.png"))); // NOI18N
-        btnMute.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMuteActionPerformed(evt);
-            }
-        });
-
         btnLoadMusic.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/open-music.png"))); // NOI18N
         btnLoadMusic.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLoadMusicActionPerformed(evt);
+            }
+        });
+
+        btnMute.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/unmute.png"))); // NOI18N
+        btnMute.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMuteActionPerformed(evt);
             }
         });
 
@@ -268,8 +270,8 @@ public class FormPlayer extends javax.swing.JFrame {
                     .addComponent(lblTitleFooter, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnLoadMusic, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnMute, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(16, 16, 16)
+                .addComponent(btnMute, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         panelFooterLayout.setVerticalGroup(
@@ -277,8 +279,8 @@ public class FormPlayer extends javax.swing.JFrame {
             .addGroup(panelFooterLayout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addGroup(panelFooterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnLoadMusic, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnMute, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnLoadMusic, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(panelFooterLayout.createSequentialGroup()
                         .addComponent(lblTitleFooter)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -342,9 +344,8 @@ public class FormPlayer extends javax.swing.JFrame {
             }
         ));
         tblSongs.setRowMargin(5);
+        tblSongs.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tblSongs.setShowGrid(false);
-        tblSongs.setShowHorizontalLines(false);
-        tblSongs.setShowVerticalLines(false);
         jScrollPane1.setViewportView(tblSongs);
 
         javax.swing.GroupLayout panelListLayout = new javax.swing.GroupLayout(panelList);
@@ -379,7 +380,7 @@ public class FormPlayer extends javax.swing.JFrame {
                 .addGap(5, 5, 5)
                 .addGroup(panelCenterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(panelSong, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelList, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(panelList, javax.swing.GroupLayout.PREFERRED_SIZE, 490, Short.MAX_VALUE))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -406,9 +407,11 @@ public class FormPlayer extends javax.swing.JFrame {
         if (player.isActive()) {
             if (player.isPlaying()) {
                 player.pause();
+                btnPlay.setIcon(new ImageIcon(getClass().getResource("/img/play.png")));
             }
             else {
                 player.resumeTrack();
+                btnPlay.setIcon(new ImageIcon(getClass().getResource("/img/pause.png")));
             }
             
         }
@@ -426,20 +429,6 @@ public class FormPlayer extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnPrevActionPerformed
 
-    private void btnMuteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMuteActionPerformed
-        if (player.isActive()) {
-            if (btnMute.isSelected()) {
-                player.mute();
-            }
-            else {
-                player.unmute();
-            }
-        }
-        else {
-            btnMute.setSelected(!btnMute.isSelected());
-        }
-    }//GEN-LAST:event_btnMuteActionPerformed
-
     private void trackBarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_trackBarMouseClicked
         if (player.isActive() && player.isPlaying()) {
             Rectangle bounds = trackBar.getBounds();
@@ -453,6 +442,19 @@ public class FormPlayer extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_trackBarMouseClicked
 
+    private void btnMuteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMuteActionPerformed
+        if (player.isActive() && player.isPlaying()) {
+            if (player.isMute()) {
+                player.unmute();
+                btnMute.setIcon(new ImageIcon(getClass().getResource("/img/unmute.png")));
+            }
+            else {
+                player.mute();
+                btnMute.setIcon(new ImageIcon(getClass().getResource("/img/mute.png")));
+            }
+        }
+    }//GEN-LAST:event_btnMuteActionPerformed
+
     public static void main(String args[]) throws UnsupportedLookAndFeelException {
         UIManager.setLookAndFeel(new MaterialLookAndFeel());
         
@@ -463,7 +465,7 @@ public class FormPlayer extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLoadMusic;
-    private javax.swing.JToggleButton btnMute;
+    private javax.swing.JButton btnMute;
     private javax.swing.JButton btnNext;
     private javax.swing.JButton btnPlay;
     private javax.swing.JButton btnPrev;
