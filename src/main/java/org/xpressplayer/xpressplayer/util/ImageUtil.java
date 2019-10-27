@@ -9,6 +9,16 @@ import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.awt.image.BufferedImageOp;
+import java.awt.image.ConvolveOp;
+import java.awt.image.Kernel;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
@@ -54,6 +64,44 @@ public class ImageUtil {
     public static ImageIcon resizeIcon(byte[] imgBytes, JLabel lblImg) {
         ImageIcon sourceIcon = new ImageIcon(imgBytes);
         return resizeIcon(sourceIcon, lblImg.getBounds());
+    }
+    
+    public static ImageIcon getBlurred(byte[] imgData) {
+        BufferedImage image = null;
+        try {
+            image = ImageIO.read(new ByteArrayInputStream(imgData));
+        } catch (IOException ex) {
+            Logger.getLogger(ImageUtil.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        float[] matrix = new float[400];
+        for (int i = 0; i < 400; i++) {
+            matrix[i] = 1.0f / 400.0f;
+        }
+
+        BufferedImageOp op = new ConvolveOp(new Kernel(20, 20, matrix), ConvolveOp.EDGE_NO_OP, null);
+        BufferedImage blurred = op.filter(image, null);
+        return new ImageIcon(blurred);
+
+    }
+    
+    public static ImageIcon getBlurred(InputStream in) {
+        BufferedImage image = null;
+        try {
+            image = ImageIO.read(in);
+        } catch (IOException ex) {
+            Logger.getLogger(ImageUtil.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        float[] matrix = new float[400];
+        for (int i = 0; i < 400; i++) {
+            matrix[i] = 1.0f / 400.0f;
+        }
+
+        BufferedImageOp op = new ConvolveOp(new Kernel(20, 20, matrix), ConvolveOp.EDGE_NO_OP, null);
+        BufferedImage blurred = op.filter(image, null);
+        return new ImageIcon(blurred);
+
     }
 
 }

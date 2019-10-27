@@ -5,9 +5,14 @@
  */
 package org.xpressplayer.xpressplayer.gui;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Rectangle;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelListener;
 import java.io.File;
 import javax.swing.JComponent;
 import javax.swing.UIManager;
@@ -15,7 +20,6 @@ import javax.swing.UnsupportedLookAndFeelException;
 import mdlaf.MaterialLookAndFeel;
 import mdlaf.animation.MaterialUIMovement;
 import static mdlaf.utils.MaterialColors.*;
-import mdlaf.utils.MaterialFonts;
 import org.muplayer.audio.Player;
 import org.muplayer.audio.Track;
 import org.muplayer.audio.interfaces.PlayerListener;
@@ -23,7 +27,6 @@ import org.xpressplayer.xpressplayer.gui.util.UIUtil;
 import org.xpressplayer.xpressplayer.util.TrackUtil;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
-import javax.swing.JTable;
 import javax.swing.filechooser.FileFilter;
 import org.muplayer.audio.model.TrackInfo;
 import org.xpressplayer.xpressplayer.gui.model.TCRSongs;
@@ -55,21 +58,23 @@ public class FormPlayer extends javax.swing.JFrame {
         configurePlayer();
         configureUI();
         configFileChooser();
+        
+    }
+    
+    private void configureTheme(Color color) {
+        trackBar.setForeground(color);
     }
     
     private void configureUI() {
+        configureTheme(LIGHT_BLUE_300);
+
         tblSongs.setBackground(WHITE);
         setLocationRelativeTo(null);
-        //panelCenter.setBorder(MaterialBorders.DEFAULT_SHADOW_BORDER);
-
-        trackBar.setForeground(LIGHT_BLUE_200);
 
         UIUtil.setBackgrounds(WHITE, trackBar);
         UIUtil.setBackgrounds(GRAY_300, panelFooter, btnPlay, btnNext, btnPrev, btnMute, btnLoadMusic);
         //UIUtil.setBorders(MaterialBorders.DEFAULT_SHADOW_BORDER, btnPlay, btnNext, btnPrev);
 
-        lblTitleFooter.setFont(MaterialFonts.BOLD);
-        
         configureTransitions();
     }
     
@@ -80,7 +85,7 @@ public class FormPlayer extends javax.swing.JFrame {
     }
     
     private void setAllFonts(Component component) {
-        component.setFont(MaterialFonts.REGULAR);
+        //component.setFont(MaterialFonts.REGULAR);
         if (component instanceof JComponent) {
             Component[] components = ((JComponent)component).getComponents();
             for (int i = 0; i < components.length; i++) {
@@ -108,13 +113,23 @@ public class FormPlayer extends javax.swing.JFrame {
         lblArtist.setText(UIUtil.getScaledText(artist, lblArtist));
         lblAlbum.setText(UIUtil.getScaledText(album, lblAlbum));
 
+        ImageIcon cover;
+        //Image blurredCover;
+        //Toolkit toolkit = Toolkit.getDefaultToolkit();
+        
         if (coverData == null || coverData.length == 0) {
-            lblCover.setIcon(new ImageIcon(getClass().getResource("/img/cover256.png")));
+            cover = new ImageIcon(getClass().getResource("/img/cover256.png"));
+            //blurredCover = toolkit.createImage(getClass().getResource("/img/cover256.png"));
         }
         else {
-            ImageIcon original = new ImageIcon(coverData);
-            lblCover.setIcon(ImageUtil.resizeIcon(original, new Dimension(256, 256)));
+            cover = ImageUtil.resizeIcon(new ImageIcon(coverData), new Dimension(256, 256));
+            //blurredCover = toolkit.createImage(coverData);
         }
+        lblCover.setIcon(cover);
+        //Graphics graphics = panelSong.getGraphics();
+        //graphics.drawImage(blurredCover, 0, 0, null);
+        
+        
         trackBar.setValue(0);
         trackBar.setMinimum(0);
         trackBar.setMaximum((int) track.getDuration());
@@ -313,7 +328,7 @@ public class FormPlayer extends javax.swing.JFrame {
         panelSongLayout.setHorizontalGroup(
             panelSongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelSongLayout.createSequentialGroup()
-                .addGap(42, 42, 42)
+                .addGap(56, 56, 56)
                 .addGroup(panelSongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(lblCover, javax.swing.GroupLayout.DEFAULT_SIZE, 301, Short.MAX_VALUE)
                     .addComponent(lblTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -324,7 +339,7 @@ public class FormPlayer extends javax.swing.JFrame {
         panelSongLayout.setVerticalGroup(
             panelSongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelSongLayout.createSequentialGroup()
-                .addGap(45, 45, 45)
+                .addGap(23, 23, 23)
                 .addComponent(lblCover, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(lblTitle)
@@ -332,7 +347,7 @@ public class FormPlayer extends javax.swing.JFrame {
                 .addComponent(lblArtist)
                 .addGap(18, 18, 18)
                 .addComponent(lblAlbum)
-                .addContainerGap(58, Short.MAX_VALUE))
+                .addContainerGap(80, Short.MAX_VALUE))
         );
 
         tblSongs.setModel(new javax.swing.table.DefaultTableModel(
@@ -354,14 +369,14 @@ public class FormPlayer extends javax.swing.JFrame {
             panelListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelListLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 648, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 634, Short.MAX_VALUE)
                 .addContainerGap())
         );
         panelListLayout.setVerticalGroup(
             panelListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelListLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 463, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 453, Short.MAX_VALUE)
                 .addGap(25, 25, 25))
         );
 
@@ -378,10 +393,10 @@ public class FormPlayer extends javax.swing.JFrame {
             panelCenterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelCenterLayout.createSequentialGroup()
                 .addGap(5, 5, 5)
-                .addGroup(panelCenterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(panelCenterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(panelSong, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelList, javax.swing.GroupLayout.PREFERRED_SIZE, 490, Short.MAX_VALUE))
-                .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(panelList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 0, 0))
         );
 
         getContentPane().add(panelCenter, java.awt.BorderLayout.CENTER);

@@ -88,6 +88,14 @@
             <artifactId>material-ui-swing</artifactId>
             <version>0.9.6</version>
         </dependency>
+        
+         <!--
+        <dependency>
+            <groupId>com.mdlaf</groupId>
+            <artifactId>material-ui-swing</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        -->
     </dependencies>
         
     
