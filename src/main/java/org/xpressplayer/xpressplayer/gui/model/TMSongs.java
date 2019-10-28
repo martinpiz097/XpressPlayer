@@ -6,6 +6,7 @@
 package org.xpressplayer.xpressplayer.gui.model;
 
 import java.util.List;
+import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 import org.muplayer.audio.Player;

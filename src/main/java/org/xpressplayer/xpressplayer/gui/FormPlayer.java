@@ -9,11 +9,8 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Rectangle;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.awt.event.MouseWheelListener;
 import java.io.File;
+import java.util.List;
 import javax.swing.JComponent;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -27,6 +24,7 @@ import org.xpressplayer.xpressplayer.gui.util.UIUtil;
 import org.xpressplayer.xpressplayer.util.TrackUtil;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 import org.muplayer.audio.model.TrackInfo;
 import org.xpressplayer.xpressplayer.gui.model.TCRSongs;
@@ -128,7 +126,17 @@ public class FormPlayer extends javax.swing.JFrame {
         lblCover.setIcon(cover);
         //Graphics graphics = panelSong.getGraphics();
         //graphics.drawImage(blurredCover, 0, 0, null);
+        List<String> listSoundPaths = player.getListSoundPaths();
+        String currentPath = player.getCurrent().getDataSource().getPath();
+        int indexOf = listSoundPaths.indexOf(currentPath);
         
+
+        // cosas imbeciles que no se por que funcionan asi
+        while (tblSongs.getRowCount() == 0) {}
+        
+        if (indexOf != -1) {
+            tblSongs.setRowSelectionInterval(indexOf, indexOf);
+        }
         
         trackBar.setValue(0);
         trackBar.setMinimum(0);
@@ -144,7 +152,7 @@ public class FormPlayer extends javax.swing.JFrame {
 
             @Override
             public void onPlayed(Track track) {
-                
+                loadTrackInfo(track);
             }
 
             @Override
@@ -361,6 +369,11 @@ public class FormPlayer extends javax.swing.JFrame {
         tblSongs.setRowMargin(5);
         tblSongs.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tblSongs.setShowGrid(false);
+        tblSongs.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblSongsMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblSongs);
 
         javax.swing.GroupLayout panelListLayout = new javax.swing.GroupLayout(panelList);
@@ -469,6 +482,14 @@ public class FormPlayer extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btnMuteActionPerformed
+
+    private void tblSongsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSongsMouseClicked
+        if (player.isActive() && player.hasSounds()) {
+            int selectedRow = tblSongs.getSelectedRow();
+            player.play(selectedRow);
+            
+        }
+    }//GEN-LAST:event_tblSongsMouseClicked
 
     public static void main(String args[]) throws UnsupportedLookAndFeelException {
         UIManager.setLookAndFeel(new MaterialLookAndFeel());
