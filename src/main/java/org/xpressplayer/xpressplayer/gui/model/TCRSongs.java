@@ -5,10 +5,8 @@
  */
 package org.xpressplayer.xpressplayer.gui.model;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.net.URL;
 import javax.swing.JLabel;
 import javax.swing.JTable;
@@ -16,7 +14,6 @@ import javax.swing.table.TableCellRenderer;
 import org.muplayer.audio.model.TrackInfo;
 import javax.swing.ImageIcon;
 import javax.swing.plaf.metal.MetalLabelUI;
-import mdlaf.components.label.MaterialLabelUI;
 import mdlaf.utils.MaterialBorders;
 import mdlaf.utils.MaterialColors;
 import org.xpressplayer.xpressplayer.util.ImageUtil;
@@ -48,7 +45,6 @@ public class TCRSongs implements TableCellRenderer {
         
         lblCell.setOpaque(true);
         lblCell.setUI(new MetalLabelUI());
-        //lblCell.setFont(new Font("Droid Sans", Font.BOLD, 18));
         lblCell.setText(song.getTitle());
         lblCell.setVerticalAlignment(JLabel.CENTER);
         lblCell.setHorizontalTextPosition(JLabel.RIGHT);

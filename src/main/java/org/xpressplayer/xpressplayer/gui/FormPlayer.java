@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Rectangle;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.List;
 import javax.swing.JComponent;
@@ -374,6 +375,11 @@ public class FormPlayer extends javax.swing.JFrame {
                 tblSongsMouseClicked(evt);
             }
         });
+        tblSongs.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tblSongsKeyPressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblSongs);
 
         javax.swing.GroupLayout panelListLayout = new javax.swing.GroupLayout(panelList);
@@ -485,11 +491,21 @@ public class FormPlayer extends javax.swing.JFrame {
 
     private void tblSongsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSongsMouseClicked
         if (player.isActive() && player.hasSounds()) {
-            int selectedRow = tblSongs.getSelectedRow();
-            player.play(selectedRow);
-            
+            if (evt.getClickCount() == 2) {
+                int selectedRow = tblSongs.getSelectedRow();
+                player.play(selectedRow);
+            }
         }
     }//GEN-LAST:event_tblSongsMouseClicked
+
+    private void tblSongsKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblSongsKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (player.isActive() && player.hasSounds()) {
+                int selectedRow = tblSongs.getSelectedRow();
+                player.play(selectedRow);
+            }
+        }
+    }//GEN-LAST:event_tblSongsKeyPressed
 
     public static void main(String args[]) throws UnsupportedLookAndFeelException {
         UIManager.setLookAndFeel(new MaterialLookAndFeel());
