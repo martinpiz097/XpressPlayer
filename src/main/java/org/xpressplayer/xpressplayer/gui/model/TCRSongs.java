@@ -7,6 +7,7 @@ package org.xpressplayer.xpressplayer.gui.model;
 
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.net.URL;
 import javax.swing.JLabel;
 import javax.swing.JTable;
@@ -16,6 +17,7 @@ import javax.swing.ImageIcon;
 import javax.swing.plaf.metal.MetalLabelUI;
 import mdlaf.utils.MaterialBorders;
 import mdlaf.utils.MaterialColors;
+import mdlaf.utils.MaterialFontFactory;
 import org.xpressplayer.xpressplayer.util.ImageUtil;
 
 /**
@@ -27,7 +29,7 @@ public class TCRSongs implements TableCellRenderer {
     private ImageIcon getIcon(TrackInfo trackInfo) {
         ImageIcon icon;
         URL defaultIcon = getClass().getResource("/img/cover.png");
-        Dimension imgDim = new Dimension(48, 48);
+        Dimension imgDim = new Dimension(42, 42);
         
         if (trackInfo.hasCover()) {
            icon = ImageUtil.resizeIcon(new ImageIcon(trackInfo.getCoverData()), imgDim); 
@@ -62,6 +64,9 @@ public class TCRSongs implements TableCellRenderer {
         ImageIcon icon = getIcon(song);
         lblCell.setIcon(icon);
         lblCell.setVisible(true);
+        lblCell.setText("    "+lblCell.getText());
+        lblCell.setFont(new Font(MaterialFontFactory.BOLD, Font.BOLD, 14));
+        
         
         //lblCell.updateUI();
         

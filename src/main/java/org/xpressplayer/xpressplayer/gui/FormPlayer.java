@@ -26,7 +26,6 @@ import org.xpressplayer.xpressplayer.gui.util.UIUtil;
 import org.xpressplayer.xpressplayer.util.TrackUtil;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 import mdlaf.utils.MaterialFontFactory;
 import org.muplayer.audio.model.TrackInfo;
@@ -70,7 +69,8 @@ public class FormPlayer extends javax.swing.JFrame {
         configureTheme(LIGHT_BLUE_300);
 
         tblSongs.setBackground(WHITE);
-        tblSongs.setRowHeight(30);
+        tblSongs.setRowHeight(UIUtil.DEFAULT_ROW_HEIGHT);
+        tblSongs.setRowMargin(UIUtil.DEFAULT_ROW_MARGIN);
         setLocationRelativeTo(null);
 
         UIUtil.setBackgrounds(WHITE, trackBar);
@@ -374,6 +374,7 @@ public class FormPlayer extends javax.swing.JFrame {
                 "Canciones"
             }
         ));
+        tblSongs.setIntercellSpacing(new java.awt.Dimension(10, 10));
         tblSongs.setRowHeight(25);
         tblSongs.setRowMargin(10);
         tblSongs.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -447,6 +448,7 @@ public class FormPlayer extends javax.swing.JFrame {
                 tblSongs.setModel(model);
                 tblSongs.updateUI();
                 tblSongs.setDefaultRenderer(String.class, new TCRSongs());
+                tblSongs.setRowHeight(UIUtil.DEFAULT_ROW_HEIGHT);
             }
         }
         
