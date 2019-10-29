@@ -8,6 +8,7 @@ package org.xpressplayer.xpressplayer.gui;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.io.File;
@@ -27,6 +28,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
+import mdlaf.utils.MaterialFontFactory;
 import org.muplayer.audio.model.TrackInfo;
 import org.xpressplayer.xpressplayer.gui.model.TCRSongs;
 import org.xpressplayer.xpressplayer.gui.model.TMSongs;
@@ -68,12 +70,16 @@ public class FormPlayer extends javax.swing.JFrame {
         configureTheme(LIGHT_BLUE_300);
 
         tblSongs.setBackground(WHITE);
+        tblSongs.setRowHeight(30);
         setLocationRelativeTo(null);
 
         UIUtil.setBackgrounds(WHITE, trackBar);
-        UIUtil.setBackgrounds(GRAY_300, panelFooter, btnPlay, btnNext, btnPrev, btnMute, btnLoadMusic);
+        UIUtil.setBackgrounds(GRAY_300, panelFooter, btnPlay, btnNext, btnPrev, btnMute, btnLoadMusic, lblTitleFooter);
         //UIUtil.setBorders(MaterialBorders.DEFAULT_SHADOW_BORDER, btnPlay, btnNext, btnPrev);
 
+        lblTitle.setFont(new Font(MaterialFontFactory.REGULAR, Font.PLAIN, 18));
+        lblArtist.setFont(new Font(MaterialFontFactory.REGULAR, Font.PLAIN, 16));
+        lblAlbum.setFont(new Font(MaterialFontFactory.REGULAR, Font.PLAIN, 14));
         configureTransitions();
     }
     
@@ -194,6 +200,7 @@ public class FormPlayer extends javax.swing.JFrame {
      private void configFileChooser() {
         musicChooser.setMultiSelectionEnabled(false);
         musicChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        musicChooser.setCurrentDirectory(new File("/home/martin/Escritorio/Música"));
         musicChooser.setFileFilter(new FileFilter() {
             @Override
             public boolean accept(File f) {
@@ -322,15 +329,15 @@ public class FormPlayer extends javax.swing.JFrame {
         lblCover.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/cover256.png"))); // NOI18N
 
         lblTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblTitle.setText("[Example Text]");
+        lblTitle.setText("Nada en Reproducción");
 
         lblArtist.setFont(new java.awt.Font("Droid Sans", 0, 16)); // NOI18N
         lblArtist.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblArtist.setText("[Example Text]");
+        lblArtist.setText("Nada en Reproducción");
 
         lblAlbum.setFont(new java.awt.Font("Droid Sans", 0, 14)); // NOI18N
         lblAlbum.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblAlbum.setText("[Example Text]");
+        lblAlbum.setText("Nada en Reproducción");
 
         javax.swing.GroupLayout panelSongLayout = new javax.swing.GroupLayout(panelSong);
         panelSong.setLayout(panelSongLayout);
@@ -367,7 +374,8 @@ public class FormPlayer extends javax.swing.JFrame {
                 "Canciones"
             }
         ));
-        tblSongs.setRowMargin(5);
+        tblSongs.setRowHeight(25);
+        tblSongs.setRowMargin(10);
         tblSongs.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tblSongs.setShowGrid(false);
         tblSongs.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -431,7 +439,14 @@ public class FormPlayer extends javax.swing.JFrame {
             
             if (folder != null) {
                 player.addMusic(folder);
-                player.start();
+                if (!player.isAlive()) {
+                    player.start();
+                }
+                TMSongs model = (TMSongs) tblSongs.getModel();
+                model.setListTracks(player.getTracksInfo());
+                tblSongs.setModel(model);
+                tblSongs.updateUI();
+                tblSongs.setDefaultRenderer(String.class, new TCRSongs());
             }
         }
         

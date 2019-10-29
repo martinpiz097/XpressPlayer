@@ -20,7 +20,7 @@ import org.xpressplayer.xpressplayer.sys.FormObjectManager;
  */
 public class TMSongs implements TableModel {
 
-    private final List<TrackInfo> listTracks;
+    private List<TrackInfo> listTracks;
 
     public TMSongs(List<TrackInfo> listTracks) {
         this.listTracks = listTracks;
@@ -29,6 +29,15 @@ public class TMSongs implements TableModel {
     public TMSongs() {
         listTracks = ((Player)FormObjectManager.getInstance().get(FormObject.PLAYER)).getTracksInfo();
     }
+
+    public List<TrackInfo> getListTracks() {
+        return listTracks;
+    }
+
+    public void setListTracks(List<TrackInfo> listTracks) {
+        this.listTracks = listTracks;
+    }
+
 
     public TrackInfo getInfo(int row) {
         return listTracks.get(row);
