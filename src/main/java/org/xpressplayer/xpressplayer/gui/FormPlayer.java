@@ -200,7 +200,7 @@ public class FormPlayer extends javax.swing.JFrame {
      private void configFileChooser() {
         musicChooser.setMultiSelectionEnabled(false);
         musicChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        musicChooser.setCurrentDirectory(new File("/home/martin/Escritorio/Música"));
+        //musicChooser.setCurrentDirectory(new File("/home/martin/Escritorio/Música"));
         musicChooser.setFileFilter(new FileFilter() {
             @Override
             public boolean accept(File f) {
