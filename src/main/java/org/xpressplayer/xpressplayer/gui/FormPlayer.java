@@ -259,9 +259,6 @@ public class FormPlayer extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("XpressPlayer");
         addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosed(java.awt.event.WindowEvent evt) {
-                formWindowClosed(evt);
-            }
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
             }
@@ -559,10 +556,6 @@ public class FormPlayer extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_tblSongsKeyPressed
-
-    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        
-    }//GEN-LAST:event_formWindowClosed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         notificationManager.sendNotification("XpressPlayer", "¡Gracias por utilizar XpressPlayer!");
