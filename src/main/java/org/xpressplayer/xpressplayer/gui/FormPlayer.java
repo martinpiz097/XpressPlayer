@@ -12,7 +12,11 @@ import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -66,21 +70,27 @@ public class FormPlayer extends javax.swing.JFrame {
     }
     
     private void configureUI() {
-        configureTheme(LIGHT_BLUE_300);
-
-        tblSongs.setBackground(WHITE);
-        tblSongs.setRowHeight(UIUtil.DEFAULT_ROW_HEIGHT);
-        tblSongs.setRowMargin(UIUtil.DEFAULT_ROW_MARGIN);
-        setLocationRelativeTo(null);
-
-        UIUtil.setBackgrounds(WHITE, trackBar);
-        UIUtil.setBackgrounds(GRAY_300, panelFooter, btnPlay, btnNext, btnPrev, btnMute, btnLoadMusic, lblTitleFooter);
-        //UIUtil.setBorders(MaterialBorders.DEFAULT_SHADOW_BORDER, btnPlay, btnNext, btnPrev);
-
-        lblTitle.setFont(new Font(MaterialFontFactory.REGULAR, Font.PLAIN, 18));
-        lblArtist.setFont(new Font(MaterialFontFactory.REGULAR, Font.PLAIN, 16));
-        lblAlbum.setFont(new Font(MaterialFontFactory.REGULAR, Font.PLAIN, 14));
-        configureTransitions();
+        try {
+            setIconImage(ImageIO.read(getClass().getResource("/logo.png")));
+            
+            configureTheme(LIGHT_BLUE_300);
+            
+            tblSongs.setBackground(WHITE);
+            tblSongs.setRowHeight(UIUtil.DEFAULT_ROW_HEIGHT);
+            tblSongs.setRowMargin(UIUtil.DEFAULT_ROW_MARGIN);
+            setLocationRelativeTo(null);
+            
+            UIUtil.setBackgrounds(WHITE, trackBar);
+            UIUtil.setBackgrounds(GRAY_300, panelFooter, btnPlay, btnNext, btnPrev, btnMute, btnLoadMusic, lblTitleFooter);
+            //UIUtil.setBorders(MaterialBorders.DEFAULT_SHADOW_BORDER, btnPlay, btnNext, btnPrev);
+            
+            lblTitle.setFont(new Font(MaterialFontFactory.REGULAR, Font.PLAIN, 18));
+            lblArtist.setFont(new Font(MaterialFontFactory.REGULAR, Font.PLAIN, 16));
+            lblAlbum.setFont(new Font(MaterialFontFactory.REGULAR, Font.PLAIN, 14));
+            configureTransitions();
+        } catch (IOException ex) {
+            Logger.getLogger(FormPlayer.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     private void configureTransitions() {
@@ -237,6 +247,7 @@ public class FormPlayer extends javax.swing.JFrame {
         tblSongs = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("XpressPlayer");
 
         btnPrev.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/prev.png"))); // NOI18N
         btnPrev.addActionListener(new java.awt.event.ActionListener() {
@@ -376,7 +387,6 @@ public class FormPlayer extends javax.swing.JFrame {
         ));
         tblSongs.setIntercellSpacing(new java.awt.Dimension(10, 10));
         tblSongs.setRowHeight(25);
-        tblSongs.setRowMargin(10);
         tblSongs.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tblSongs.setShowGrid(false);
         tblSongs.addMouseListener(new java.awt.event.MouseAdapter() {

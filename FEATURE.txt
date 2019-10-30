@@ -1,0 +1,7 @@
+- Agregar notificaciones de escritorio
+- Agregar menu de escritorio
+- Opcion de dejar minimizado
+- Volumen por software
+- Pan
+- Titulo de Ventana
+- Icono de ventana y de app
