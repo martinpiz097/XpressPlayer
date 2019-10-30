@@ -13,6 +13,7 @@ import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -37,6 +38,7 @@ import org.xpressplayer.xpressplayer.gui.model.TCRSongs;
 import org.xpressplayer.xpressplayer.gui.model.TMSongs;
 import org.xpressplayer.xpressplayer.sys.FormObject;
 import org.xpressplayer.xpressplayer.sys.FormObjectManager;
+import org.xpressplayer.xpressplayer.sys.NotificationManager;
 import org.xpressplayer.xpressplayer.util.ImageUtil;
 
 
@@ -48,13 +50,15 @@ import org.xpressplayer.xpressplayer.util.ImageUtil;
 public class FormPlayer extends javax.swing.JFrame {
 
     private JFileChooser musicChooser;
-    
+
+    private final NotificationManager notificationManager;
     private Player player;
     
     public FormPlayer() {
         initComponents();
         musicChooser = new JFileChooser();
         
+        notificationManager = NotificationManager.getInstance();
         player = new Player();
         //player.start();
         
@@ -88,6 +92,8 @@ public class FormPlayer extends javax.swing.JFrame {
             lblArtist.setFont(new Font(MaterialFontFactory.REGULAR, Font.PLAIN, 16));
             lblAlbum.setFont(new Font(MaterialFontFactory.REGULAR, Font.PLAIN, 14));
             configureTransitions();
+            
+            tblSongs.setModel(new TMSongs(new ArrayList<>()));
         } catch (IOException ex) {
             Logger.getLogger(FormPlayer.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -165,6 +171,10 @@ public class FormPlayer extends javax.swing.JFrame {
             @Override
             public void onSongChange(Track track) {
                 loadTrackInfo(track);
+                
+                if (!isFocused() && !isActive()) {
+                    notificationManager.sendNotification("Reproduciendo", track.getTitle());
+                }
             }
 
             @Override
@@ -248,6 +258,14 @@ public class FormPlayer extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("XpressPlayer");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         btnPrev.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/prev.png"))); // NOI18N
         btnPrev.addActionListener(new java.awt.event.ActionListener() {
@@ -449,6 +467,8 @@ public class FormPlayer extends javax.swing.JFrame {
             File folder = musicChooser.getSelectedFile();
             
             if (folder != null) {
+                
+                boolean showNotification = !player.isActive();
                 player.addMusic(folder);
                 if (!player.isAlive()) {
                     player.start();
@@ -459,6 +479,12 @@ public class FormPlayer extends javax.swing.JFrame {
                 tblSongs.updateUI();
                 tblSongs.setDefaultRenderer(String.class, new TCRSongs());
                 tblSongs.setRowHeight(UIUtil.DEFAULT_ROW_HEIGHT);
+                
+                if (player.isActive()) {
+                    notificationManager.sendNotification("Reproduciendo", player.getCurrent().getTitle());
+                }
+                
+                
             }
         }
         
@@ -533,6 +559,14 @@ public class FormPlayer extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_tblSongsKeyPressed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        
+    }//GEN-LAST:event_formWindowClosed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        notificationManager.sendNotification("XpressPlayer", "¡Gracias por utilizar XpressPlayer!");
+    }//GEN-LAST:event_formWindowClosing
 
     public static void main(String args[]) throws UnsupportedLookAndFeelException {
         UIManager.setLookAndFeel(new MaterialLookAndFeel());
