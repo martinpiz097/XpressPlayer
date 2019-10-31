@@ -184,13 +184,14 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="lblCover" pref="301" max="32767" attributes="0"/>
                           <Component id="lblTitle" max="32767" attributes="0"/>
                           <Component id="lblAlbum" max="32767" attributes="0"/>
                           <Component id="lblArtist" alignment="0" max="32767" attributes="0"/>
+                          <Component id="spinnerVolume" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace pref="54" max="32767" attributes="0"/>
                   </Group>
@@ -207,7 +208,9 @@
                       <Component id="lblArtist" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="lblAlbum" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="80" max="32767" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="spinnerVolume" min="-2" pref="27" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -244,6 +247,16 @@
                 <Property name="horizontalAlignment" type="int" value="0"/>
                 <Property name="text" type="java.lang.String" value="Nada en Reproducci&#xf3;n"/>
               </Properties>
+            </Component>
+            <Component class="javax.swing.JSlider" name="spinnerVolume">
+              <Properties>
+                <Property name="paintTicks" type="boolean" value="true"/>
+                <Property name="value" type="int" value="100"/>
+                <Property name="valueIsAdjusting" type="boolean" value="true"/>
+              </Properties>
+              <Events>
+                <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="spinnerVolumeStateChanged"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

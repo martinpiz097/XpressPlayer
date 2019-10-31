@@ -155,10 +155,14 @@ public class FormPlayer extends javax.swing.JFrame {
         
 
         // cosas imbeciles que no se por que funcionan asi
-        while (tblSongs.getRowCount() == 0) {}
-        
-        if (indexOf != -1) {
-            tblSongs.setRowSelectionInterval(indexOf, indexOf);
+        try {
+            while (tblSongs.getRowCount() == 0) {}
+            
+            if (indexOf != -1) {
+                tblSongs.setRowSelectionInterval(indexOf, indexOf);
+            }
+        } catch(RuntimeException e) {
+            System.out.println("Exception: "+e.toString());
         }
         
         trackBar.setValue(0);
@@ -252,6 +256,7 @@ public class FormPlayer extends javax.swing.JFrame {
         lblTitle = new javax.swing.JLabel();
         lblArtist = new javax.swing.JLabel();
         lblAlbum = new javax.swing.JLabel();
+        spinnerVolume = new javax.swing.JSlider();
         panelList = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblSongs = new javax.swing.JTable();
@@ -365,6 +370,15 @@ public class FormPlayer extends javax.swing.JFrame {
         lblAlbum.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblAlbum.setText("Nada en Reproducción");
 
+        spinnerVolume.setPaintTicks(true);
+        spinnerVolume.setValue(100);
+        spinnerVolume.setValueIsAdjusting(true);
+        spinnerVolume.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                spinnerVolumeStateChanged(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelSongLayout = new javax.swing.GroupLayout(panelSong);
         panelSong.setLayout(panelSongLayout);
         panelSongLayout.setHorizontalGroup(
@@ -375,7 +389,8 @@ public class FormPlayer extends javax.swing.JFrame {
                     .addComponent(lblCover, javax.swing.GroupLayout.DEFAULT_SIZE, 301, Short.MAX_VALUE)
                     .addComponent(lblTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lblAlbum, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblArtist, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(lblArtist, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(spinnerVolume, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(54, Short.MAX_VALUE))
         );
         panelSongLayout.setVerticalGroup(
@@ -389,7 +404,9 @@ public class FormPlayer extends javax.swing.JFrame {
                 .addComponent(lblArtist)
                 .addGap(18, 18, 18)
                 .addComponent(lblAlbum)
-                .addContainerGap(80, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(spinnerVolume, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         tblSongs.setModel(new javax.swing.table.DefaultTableModel(
@@ -530,10 +547,12 @@ public class FormPlayer extends javax.swing.JFrame {
         if (player.isActive() && player.isPlaying()) {
             if (player.isMute()) {
                 player.unmute();
+                spinnerVolume.setValue(Math.round(player.getGain()));
                 btnMute.setIcon(new ImageIcon(getClass().getResource("/img/unmute.png")));
             }
             else {
                 player.mute();
+                spinnerVolume.setValue(0);
                 btnMute.setIcon(new ImageIcon(getClass().getResource("/img/mute.png")));
             }
         }
@@ -561,6 +580,12 @@ public class FormPlayer extends javax.swing.JFrame {
         notificationManager.sendNotification("XpressPlayer", "¡Gracias por utilizar XpressPlayer!");
     }//GEN-LAST:event_formWindowClosing
 
+    private void spinnerVolumeStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spinnerVolumeStateChanged
+        if (player.isActive()) {
+            player.setGain(spinnerVolume.getValue());
+        }
+    }//GEN-LAST:event_spinnerVolumeStateChanged
+
     public static void main(String args[]) throws UnsupportedLookAndFeelException {
         UIManager.setLookAndFeel(new MaterialLookAndFeel());
         
@@ -585,6 +610,7 @@ public class FormPlayer extends javax.swing.JFrame {
     private javax.swing.JPanel panelFooter;
     private javax.swing.JPanel panelList;
     private javax.swing.JPanel panelSong;
+    private javax.swing.JSlider spinnerVolume;
     private javax.swing.JTable tblSongs;
     private javax.swing.JProgressBar trackBar;
     // End of variables declaration//GEN-END:variables
