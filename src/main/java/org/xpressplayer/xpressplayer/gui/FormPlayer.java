@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
+import java.util.logging.LogManager;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.JComponent;
@@ -33,6 +34,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
 import mdlaf.utils.MaterialFontFactory;
+import org.apache.logging.log4j.status.StatusLogger;
 import org.muplayer.audio.model.TrackInfo;
 import org.xpressplayer.xpressplayer.gui.model.TCRSongs;
 import org.xpressplayer.xpressplayer.gui.model.TMSongs;
@@ -587,6 +589,10 @@ public class FormPlayer extends javax.swing.JFrame {
     }//GEN-LAST:event_spinnerVolumeStateChanged
 
     public static void main(String args[]) throws UnsupportedLookAndFeelException {
+        
+        StatusLogger.getLogger().setLevel(org.apache.logging.log4j.Level.OFF);
+        LogManager.getLogManager().reset();
+        
         UIManager.setLookAndFeel(new MaterialLookAndFeel());
         
         java.awt.EventQueue.invokeLater(() -> {
