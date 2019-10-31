@@ -549,12 +549,12 @@ public class FormPlayer extends javax.swing.JFrame {
         if (player.isActive() && player.isPlaying()) {
             if (player.isMute()) {
                 player.unmute();
-                spinnerVolume.setValue(Math.round(player.getGain()));
+                //spinnerVolume.setValue(Math.round(player.getGain()));
                 btnMute.setIcon(new ImageIcon(getClass().getResource("/img/unmute.png")));
             }
             else {
                 player.mute();
-                spinnerVolume.setValue(0);
+                //spinnerVolume.setValue(0);
                 btnMute.setIcon(new ImageIcon(getClass().getResource("/img/mute.png")));
             }
         }
@@ -584,12 +584,19 @@ public class FormPlayer extends javax.swing.JFrame {
 
     private void spinnerVolumeStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spinnerVolumeStateChanged
         if (player.isActive()) {
-            player.setGain(spinnerVolume.getValue());
+            int value = spinnerVolume.getValue();
+            player.setGain(value);
+            
+            if (value == 0) {
+                btnMute.setIcon(new ImageIcon(getClass().getResource("/img/mute.png")));
+            }
+            else {
+                btnMute.setIcon(new ImageIcon(getClass().getResource("/img/unmute.png")));
+            }
         }
     }//GEN-LAST:event_spinnerVolumeStateChanged
 
     public static void main(String args[]) throws UnsupportedLookAndFeelException {
-        
         StatusLogger.getLogger().setLevel(org.apache.logging.log4j.Level.OFF);
         LogManager.getLogManager().reset();
         
