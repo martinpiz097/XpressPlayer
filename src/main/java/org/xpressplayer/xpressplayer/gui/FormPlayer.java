@@ -5,11 +5,14 @@
  */
 package org.xpressplayer.xpressplayer.gui;
 
+import dorkbox.systemTray.SystemTray;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
@@ -32,6 +35,9 @@ import org.xpressplayer.xpressplayer.gui.util.UIUtil;
 import org.xpressplayer.xpressplayer.util.TrackUtil;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 import mdlaf.utils.MaterialFontFactory;
 import org.apache.logging.log4j.status.StatusLogger;
@@ -41,6 +47,9 @@ import org.xpressplayer.xpressplayer.gui.model.TMSongs;
 import org.xpressplayer.xpressplayer.sys.FormObject;
 import org.xpressplayer.xpressplayer.sys.FormObjectManager;
 import org.xpressplayer.xpressplayer.sys.NotificationManager;
+import org.xpressplayer.xpressplayer.sys.SystemTrayManager;
+import static org.xpressplayer.xpressplayer.sys.SystemTrayManager.DEFAULT_IMAGE;
+import static org.xpressplayer.xpressplayer.sys.SystemTrayManager.DEFAULT_IMAGE_URL;
 import org.xpressplayer.xpressplayer.util.ImageUtil;
 
 
@@ -54,6 +63,8 @@ public class FormPlayer extends javax.swing.JFrame {
     private JFileChooser musicChooser;
 
     private final NotificationManager notificationManager;
+    private final SystemTrayManager systemTrayManager;
+    
     private Player player;
     
     public FormPlayer() {
@@ -61,6 +72,7 @@ public class FormPlayer extends javax.swing.JFrame {
         musicChooser = new JFileChooser();
         
         notificationManager = NotificationManager.getInstance();
+        systemTrayManager = SystemTrayManager.getInstance();
         player = new Player();
         //player.start();
         
@@ -96,8 +108,28 @@ public class FormPlayer extends javax.swing.JFrame {
             configureTransitions();
             
             tblSongs.setModel(new TMSongs(new ArrayList<>()));
+            
+            setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+            configureSystemTray();
         } catch (IOException ex) {
             Logger.getLogger(FormPlayer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void configureSystemTray() {
+        if (systemTrayManager.isSupported()) {
+            SystemTray systemTray = systemTrayManager.getSystemTray();
+            systemTray.setEnabled(false);
+            
+            JMenuItem itemOpen = new JMenuItem(DEFAULT_IMAGE);
+            itemOpen.setText("Abrir Reproductor");
+            itemOpen.addActionListener((ActionEvent e) -> {
+                setLocationRelativeTo(null);
+                setVisible(true);
+                systemTrayManager.hideTray();
+            });
+            
+            systemTray.getMenu().add(itemOpen);
         }
     }
     
@@ -406,8 +438,8 @@ public class FormPlayer extends javax.swing.JFrame {
                 .addComponent(lblArtist)
                 .addGap(18, 18, 18)
                 .addComponent(lblAlbum)
-                .addGap(18, 18, 18)
-                .addComponent(spinnerVolume, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(spinnerVolume, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -579,7 +611,31 @@ public class FormPlayer extends javax.swing.JFrame {
     }//GEN-LAST:event_tblSongsKeyPressed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        notificationManager.sendNotification("XpressPlayer", "¡Gracias por utilizar XpressPlayer!");
+        if (player.isActive()) {
+            int confirmation = JOptionPane.showConfirmDialog(this, "¿Desea minimizar la aplicación?",
+                    "Confirmación", JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    new ImageIcon(SystemTrayManager.DEFAULT_IMAGE_URL));
+            if (confirmation == JOptionPane.YES_OPTION) {
+                setVisible(false);
+                systemTrayManager.showTray();
+            }
+            else {
+                setVisible(false);
+                notificationManager.sendNotification("XpressPlayer", "¡Gracias por utilizar XpressPlayer!");
+                System.exit(0);
+                /*Timer timer = new Timer(3, (ActionEvent e) -> {
+                System.out.println("TIMER");
+                System.exit(0);
+            });
+            timer.start();*/
+            }
+        }
+        else {
+            setVisible(false);
+            notificationManager.sendNotification("XpressPlayer", "¡Gracias por utilizar XpressPlayer!");
+            System.exit(0);
+        }
     }//GEN-LAST:event_formWindowClosing
 
     private void spinnerVolumeStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spinnerVolumeStateChanged

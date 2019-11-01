@@ -1,3 +1,4 @@
 - Agregar menu de escritorio
 - Opcion de dejar minimizado
 - Pan
+- Popup en system tray
