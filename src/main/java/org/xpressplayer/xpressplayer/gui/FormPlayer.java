@@ -496,7 +496,7 @@ public class FormPlayer extends javax.swing.JFrame {
                 tblSongs.setDefaultRenderer(String.class, new TCRSongs());
                 tblSongs.setRowHeight(UIUtil.DEFAULT_ROW_HEIGHT);
                 
-                if (player.isActive()) {
+                if (showNotification) {
                     notificationManager.sendNotification("Reproduciendo", player.getCurrent().getTitle());
                 }
                 

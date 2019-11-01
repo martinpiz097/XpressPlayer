@@ -28,6 +28,7 @@ public class NotificationManager {
     public NotificationManager() {
         sendNotification = new SendNotification()
                 .setApplication(getApplication());
+        notifier = sendNotification.initNotifier();
     }
 
     private void initNotifier() {
@@ -43,7 +44,6 @@ public class NotificationManager {
     }
     
     public void sendNotification(String title, String msg) {
-        initNotifier();
         Notification notification = Notification.builder()
                 .icon(getIcon())
                 .level(Notification.Level.INFO)
@@ -51,7 +51,6 @@ public class NotificationManager {
                 .title(title)
                 .build();
         notifier.send(notification);
-        notifier.close();
     }
     
 }
