@@ -5,6 +5,7 @@
  */
 package org.xpressplayer.xpressplayer.gui;
 
+import com.sun.java.swing.plaf.gtk.GTKLookAndFeel;
 import dorkbox.systemTray.SystemTray;
 import java.awt.Color;
 import java.awt.Component;
@@ -12,7 +13,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
@@ -39,17 +39,19 @@ import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
+import javax.swing.plaf.metal.MetalLookAndFeel;
+import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 import mdlaf.utils.MaterialFontFactory;
 import org.apache.logging.log4j.status.StatusLogger;
 import org.muplayer.audio.model.TrackInfo;
 import org.xpressplayer.xpressplayer.gui.model.TCRSongs;
 import org.xpressplayer.xpressplayer.gui.model.TMSongs;
+import org.xpressplayer.xpressplayer.sys.AppInfo;
 import org.xpressplayer.xpressplayer.sys.FormObject;
 import org.xpressplayer.xpressplayer.sys.FormObjectManager;
 import org.xpressplayer.xpressplayer.sys.NotificationManager;
 import org.xpressplayer.xpressplayer.sys.SystemTrayManager;
 import static org.xpressplayer.xpressplayer.sys.SystemTrayManager.DEFAULT_IMAGE;
-import static org.xpressplayer.xpressplayer.sys.SystemTrayManager.DEFAULT_IMAGE_URL;
 import org.xpressplayer.xpressplayer.util.ImageUtil;
 
 
@@ -94,6 +96,7 @@ public class FormPlayer extends javax.swing.JFrame {
             configureTheme(LIGHT_BLUE_300);
             
             tblSongs.setBackground(WHITE);
+            tblSongs.setOpaque(true);
             tblSongs.setRowHeight(UIUtil.DEFAULT_ROW_HEIGHT);
             tblSongs.setRowMargin(UIUtil.DEFAULT_ROW_MARGIN);
             setLocationRelativeTo(null);
@@ -361,14 +364,14 @@ public class FormPlayer extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnNext)
                 .addGap(18, 18, 18)
-                .addGroup(panelFooterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(trackBar, javax.swing.GroupLayout.DEFAULT_SIZE, 753, Short.MAX_VALUE)
-                    .addComponent(lblTitleFooter, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panelFooterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lblTitleFooter, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(trackBar, javax.swing.GroupLayout.DEFAULT_SIZE, 706, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnLoadMusic, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(16, 16, 16)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnMute, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(13, Short.MAX_VALUE))
         );
         panelFooterLayout.setVerticalGroup(
             panelFooterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -406,6 +409,8 @@ public class FormPlayer extends javax.swing.JFrame {
 
         spinnerVolume.setPaintTicks(true);
         spinnerVolume.setValue(100);
+        spinnerVolume.setFocusable(false);
+        spinnerVolume.setOpaque(true);
         spinnerVolume.setValueIsAdjusting(true);
         spinnerVolume.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -424,14 +429,14 @@ public class FormPlayer extends javax.swing.JFrame {
                     .addComponent(lblTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lblAlbum, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lblArtist, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(spinnerVolume, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(spinnerVolume, javax.swing.GroupLayout.DEFAULT_SIZE, 301, Short.MAX_VALUE))
                 .addContainerGap(54, Short.MAX_VALUE))
         );
         panelSongLayout.setVerticalGroup(
             panelSongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelSongLayout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addComponent(lblCover, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(42, 42, 42)
+                .addComponent(lblCover)
                 .addGap(18, 18, 18)
                 .addComponent(lblTitle)
                 .addGap(18, 18, 18)
@@ -440,7 +445,7 @@ public class FormPlayer extends javax.swing.JFrame {
                 .addComponent(lblAlbum)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(spinnerVolume, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         tblSongs.setModel(new javax.swing.table.DefaultTableModel(
@@ -473,7 +478,7 @@ public class FormPlayer extends javax.swing.JFrame {
             panelListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelListLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 634, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 584, Short.MAX_VALUE)
                 .addContainerGap())
         );
         panelListLayout.setVerticalGroup(
@@ -652,11 +657,32 @@ public class FormPlayer extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_spinnerVolumeStateChanged
 
-    public static void main(String args[]) throws UnsupportedLookAndFeelException {
+    private static void configureLookAndFeel() {
+        try {
+            UIManager.setLookAndFeel(new MaterialLookAndFeel());
+        } catch(Exception e) {
+            try {
+                UIManager.setLookAndFeel(new GTKLookAndFeel());
+            } catch (UnsupportedLookAndFeelException ex) {
+                try {
+                    if (AppInfo.OS_NAME.contains("mac") || AppInfo.OS_NAME.contains("osx")) {
+                        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                    }
+                    else {
+                        UIManager.setLookAndFeel(new MetalLookAndFeel());
+                    }
+                
+                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex1) {
+                        Logger.getLogger(FormPlayer.class.getName()).log(Level.SEVERE, null, ex1);
+                }
+            }
+        }
+    }
+    
+    public static void main(String args[]) {
         StatusLogger.getLogger().setLevel(org.apache.logging.log4j.Level.OFF);
         LogManager.getLogManager().reset();
-        
-        UIManager.setLookAndFeel(new MaterialLookAndFeel());
+        configureLookAndFeel();
         
         java.awt.EventQueue.invokeLater(() -> {
             new FormPlayer().setVisible(true);

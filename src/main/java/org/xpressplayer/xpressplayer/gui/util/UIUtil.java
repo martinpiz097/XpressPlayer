@@ -24,6 +24,7 @@ public class UIUtil {
         if (components != null && components.length > 0) {
             for (int i = 0; i < components.length; i++) {
                 components[i].setBackground(color);
+                components[i].setOpaque(true);
             }
         }
     }

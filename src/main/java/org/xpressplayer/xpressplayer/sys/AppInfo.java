@@ -16,6 +16,9 @@ import java.util.logging.Logger;
  * @author martin
  */
 public class AppInfo {
+
+    public static final String OS_NAME = System.getProperty("os.name").toLowerCase();
+        
     public static Properties getNotificationProperties() {
         InputStream propsIn = AppInfo.class.getResourceAsStream("/send-notification.properties");
         Properties props = new Properties();
