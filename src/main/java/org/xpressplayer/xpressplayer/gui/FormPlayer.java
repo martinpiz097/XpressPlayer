@@ -39,6 +39,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 import mdlaf.utils.MaterialFontFactory;
@@ -219,6 +220,8 @@ public class FormPlayer extends javax.swing.JFrame {
     }
     
     private void configurePlayer() {
+        //SwingWorker
+        
         player.addPlayerListener(new PlayerListener() {
             @Override
             public void onSongChange(Track track) {
