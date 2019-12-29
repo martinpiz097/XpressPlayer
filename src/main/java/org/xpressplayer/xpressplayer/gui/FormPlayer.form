@@ -49,11 +49,11 @@
                       <Component id="lblTitleFooter" max="32767" attributes="0"/>
                       <Component id="trackBar" pref="706" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace pref="19" max="32767" attributes="0"/>
                   <Component id="btnLoadMusic" min="-2" pref="45" max="-2" attributes="0"/>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="btnMute" min="-2" pref="45" max="-2" attributes="0"/>
-                  <EmptySpace pref="13" max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -63,7 +63,6 @@
                   <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
                       <Component id="btnMute" min="-2" pref="37" max="-2" attributes="0"/>
-                      <Component id="btnLoadMusic" min="-2" pref="37" max="-2" attributes="0"/>
                       <Group type="102" attributes="0">
                           <Component id="lblTitleFooter" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
@@ -74,6 +73,7 @@
                           <Component id="btnPlay" min="-2" max="-2" attributes="0"/>
                           <Component id="btnPrev" min="-2" max="-2" attributes="0"/>
                       </Group>
+                      <Component id="btnLoadMusic" min="-2" pref="37" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="25" max="32767" attributes="0"/>
               </Group>

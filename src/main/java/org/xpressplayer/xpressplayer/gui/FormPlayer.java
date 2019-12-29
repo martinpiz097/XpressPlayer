@@ -38,6 +38,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.LookAndFeel;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
@@ -49,6 +50,7 @@ import org.xpressplayer.xpressplayer.gui.model.TMSongs;
 import org.xpressplayer.xpressplayer.sys.AppInfo;
 import org.xpressplayer.xpressplayer.sys.FormObject;
 import org.xpressplayer.xpressplayer.sys.FormObjectManager;
+import org.xpressplayer.xpressplayer.sys.MusicNotificacionManager;
 import org.xpressplayer.xpressplayer.sys.NotificationManager;
 import org.xpressplayer.xpressplayer.sys.SystemTrayManager;
 import static org.xpressplayer.xpressplayer.sys.SystemTrayManager.DEFAULT_IMAGE;
@@ -64,7 +66,7 @@ public class FormPlayer extends javax.swing.JFrame {
 
     private JFileChooser musicChooser;
 
-    private final NotificationManager notificationManager;
+    private final MusicNotificacionManager notificationManager;
     private final SystemTrayManager systemTrayManager;
     
     private Player player;
@@ -73,7 +75,7 @@ public class FormPlayer extends javax.swing.JFrame {
         initComponents();
         musicChooser = new JFileChooser();
         
-        notificationManager = NotificationManager.getInstance();
+        notificationManager = (MusicNotificacionManager) NotificationManager.getInstance(MusicNotificacionManager.class);
         systemTrayManager = SystemTrayManager.getInstance();
         player = new Player();
         //player.start();
@@ -214,7 +216,7 @@ public class FormPlayer extends javax.swing.JFrame {
                 loadTrackInfo(track);
                 
                 if (!isFocused() && !isActive()) {
-                    notificationManager.sendNotification("Reproduciendo", track.getTitle());
+                    notificationManager.sendTrackNotification(track);
                 }
             }
 
@@ -367,11 +369,11 @@ public class FormPlayer extends javax.swing.JFrame {
                 .addGroup(panelFooterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(lblTitleFooter, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(trackBar, javax.swing.GroupLayout.DEFAULT_SIZE, 706, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
                 .addComponent(btnLoadMusic, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(btnMute, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addContainerGap())
         );
         panelFooterLayout.setVerticalGroup(
             panelFooterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -379,7 +381,6 @@ public class FormPlayer extends javax.swing.JFrame {
                 .addGap(14, 14, 14)
                 .addGroup(panelFooterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(btnMute, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnLoadMusic, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(panelFooterLayout.createSequentialGroup()
                         .addComponent(lblTitleFooter)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -387,7 +388,8 @@ public class FormPlayer extends javax.swing.JFrame {
                     .addGroup(panelFooterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(btnNext)
                         .addComponent(btnPlay)
-                        .addComponent(btnPrev)))
+                        .addComponent(btnPrev))
+                    .addComponent(btnLoadMusic, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(25, Short.MAX_VALUE))
         );
 
@@ -534,7 +536,7 @@ public class FormPlayer extends javax.swing.JFrame {
                 tblSongs.setRowHeight(UIUtil.DEFAULT_ROW_HEIGHT);
                 
                 if (showNotification) {
-                    notificationManager.sendNotification("Reproduciendo", player.getCurrent().getTitle());
+                    notificationManager.sendTrackNotification(player.getCurrent());
                 }
                 
                 
@@ -660,7 +662,7 @@ public class FormPlayer extends javax.swing.JFrame {
     private static void configureLookAndFeel() {
         try {
             UIManager.setLookAndFeel(new MaterialLookAndFeel());
-        } catch(Exception e) {
+        } catch(UnsupportedLookAndFeelException e) {
             try {
                 UIManager.setLookAndFeel(new GTKLookAndFeel());
             } catch (UnsupportedLookAndFeelException ex) {

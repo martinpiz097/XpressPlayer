@@ -10,6 +10,9 @@ import fr.jcgay.notification.Icon;
 import fr.jcgay.notification.Notification;
 import fr.jcgay.notification.Notifier;
 import fr.jcgay.notification.SendNotification;
+import java.lang.reflect.InvocationTargetException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -19,10 +22,20 @@ public class NotificationManager {
     private final SendNotification sendNotification;
     private Notifier notifier;
     
-    private static final NotificationManager instance = new NotificationManager();
+    private static NotificationManager instance = new NotificationManager();
     
-    public static NotificationManager getInstance() {
+    public static NotificationManager getInstance(Class<? extends NotificationManager> managerClass) {
+        try {
+            instance = managerClass.getConstructor().newInstance();
+        } catch (NoSuchMethodException | SecurityException 
+                | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+            Logger.getLogger(NotificationManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return instance;
+    }
+    
+    public static <T extends NotificationManager> T getInstance() {
+        return (T) instance;
     }
 
     public NotificationManager() {
