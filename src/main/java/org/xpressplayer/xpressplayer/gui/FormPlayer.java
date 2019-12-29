@@ -104,7 +104,7 @@ public class FormPlayer extends javax.swing.JFrame {
             setLocationRelativeTo(null);
             
             UIUtil.setBackgrounds(WHITE, trackBar);
-            UIUtil.setBackgrounds(GRAY_300, panelFooter, btnPlay, btnNext, btnPrev, btnMute, btnLoadMusic, lblTitleFooter);
+            UIUtil.setBackgrounds(GRAY_300, panelFooter, panelFooterInfo, btnPlay, btnNext, btnPrev, btnMute, btnLoadMusic, lblTitleFooter);
             //UIUtil.setBorders(MaterialBorders.DEFAULT_SHADOW_BORDER, btnPlay, btnNext, btnPrev);
             
             lblTitle.setFont(new Font(MaterialFontFactory.REGULAR, Font.PLAIN, 18));
@@ -297,10 +297,11 @@ public class FormPlayer extends javax.swing.JFrame {
         btnPrev = new javax.swing.JButton();
         btnPlay = new javax.swing.JButton();
         btnNext = new javax.swing.JButton();
-        trackBar = new javax.swing.JProgressBar();
-        lblTitleFooter = new javax.swing.JLabel();
         btnLoadMusic = new javax.swing.JButton();
         btnMute = new javax.swing.JButton();
+        panelFooterInfo = new javax.swing.JPanel();
+        lblTitleFooter = new javax.swing.JLabel();
+        trackBar = new javax.swing.JProgressBar();
         panelCenter = new javax.swing.JPanel();
         panelSong = new javax.swing.JPanel();
         lblCover = new javax.swing.JLabel();
@@ -341,17 +342,6 @@ public class FormPlayer extends javax.swing.JFrame {
             }
         });
 
-        trackBar.setString("00:00");
-        trackBar.setStringPainted(true);
-        trackBar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                trackBarMouseClicked(evt);
-            }
-        });
-
-        lblTitleFooter.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblTitleFooter.setText("Titulo - Artista");
-
         btnLoadMusic.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/open-music.png"))); // NOI18N
         btnLoadMusic.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -366,6 +356,21 @@ public class FormPlayer extends javax.swing.JFrame {
             }
         });
 
+        panelFooterInfo.setLayout(new java.awt.BorderLayout(0, 8));
+
+        lblTitleFooter.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblTitleFooter.setText("Titulo - Artista");
+        panelFooterInfo.add(lblTitleFooter, java.awt.BorderLayout.CENTER);
+
+        trackBar.setString("00:00");
+        trackBar.setStringPainted(true);
+        trackBar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                trackBarMouseClicked(evt);
+            }
+        });
+        panelFooterInfo.add(trackBar, java.awt.BorderLayout.PAGE_END);
+
         javax.swing.GroupLayout panelFooterLayout = new javax.swing.GroupLayout(panelFooter);
         panelFooter.setLayout(panelFooterLayout);
         panelFooterLayout.setHorizontalGroup(
@@ -378,25 +383,20 @@ public class FormPlayer extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnNext)
                 .addGap(18, 18, 18)
-                .addGroup(panelFooterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lblTitleFooter, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(trackBar, javax.swing.GroupLayout.DEFAULT_SIZE, 706, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                .addComponent(panelFooterInfo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(12, 12, 12)
                 .addComponent(btnLoadMusic, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnMute, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         panelFooterLayout.setVerticalGroup(
             panelFooterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelFooterLayout.createSequentialGroup()
-                .addGap(14, 14, 14)
+                .addGap(16, 16, 16)
                 .addGroup(panelFooterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(panelFooterInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnMute, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(panelFooterLayout.createSequentialGroup()
-                        .addComponent(lblTitleFooter)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(trackBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelFooterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(btnNext)
                         .addComponent(btnPlay)
@@ -459,7 +459,7 @@ public class FormPlayer extends javax.swing.JFrame {
                 .addComponent(lblAlbum)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(spinnerVolume, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         tblSongs.setModel(new javax.swing.table.DefaultTableModel(
@@ -499,7 +499,7 @@ public class FormPlayer extends javax.swing.JFrame {
             panelListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelListLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 453, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 446, Short.MAX_VALUE)
                 .addGap(25, 25, 25))
         );
 
@@ -583,19 +583,6 @@ public class FormPlayer extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnPrevActionPerformed
 
-    private void trackBarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_trackBarMouseClicked
-        if (player.isActive() && player.isPlaying()) {
-            Rectangle bounds = trackBar.getBounds();
-            final double minX = bounds.getMinX();
-            final double maxX = bounds.getMaxX();
-            final double width = maxX-minX;
-            final double evtX = evt.getPoint().getX();
-            final long duration = player.getCurrent().getDuration();
-            final double result = (duration*evtX) / width;
-            player.gotoSecond(result);
-        }
-    }//GEN-LAST:event_trackBarMouseClicked
-
     private void btnMuteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMuteActionPerformed
         if (player.isActive() && player.isPlaying()) {
             if (player.isMute()) {
@@ -668,6 +655,19 @@ public class FormPlayer extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_spinnerVolumeStateChanged
 
+    private void trackBarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_trackBarMouseClicked
+        if (player.isActive() && player.isPlaying()) {
+            Rectangle bounds = trackBar.getBounds();
+            final double minX = bounds.getMinX();
+            final double maxX = bounds.getMaxX();
+            final double width = maxX-minX;
+            final double evtX = evt.getPoint().getX();
+            final long duration = player.getCurrent().getDuration();
+            final double result = (duration*evtX) / width;
+            player.gotoSecond(result);
+        }
+    }//GEN-LAST:event_trackBarMouseClicked
+
     private static void configureLookAndFeel() {
         try {
             UIManager.setLookAndFeel(new MaterialLookAndFeel());
@@ -714,6 +714,7 @@ public class FormPlayer extends javax.swing.JFrame {
     private javax.swing.JLabel lblTitleFooter;
     private javax.swing.JPanel panelCenter;
     private javax.swing.JPanel panelFooter;
+    private javax.swing.JPanel panelFooterInfo;
     private javax.swing.JPanel panelList;
     private javax.swing.JPanel panelSong;
     private javax.swing.JSlider spinnerVolume;
