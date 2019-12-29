@@ -646,16 +646,13 @@ public class FormPlayer extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosing
 
     private void spinnerVolumeStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spinnerVolumeStateChanged
-        if (player.isActive()) {
-            int value = spinnerVolume.getValue();
-            player.setGain(value);
-            
-            if (value == 0) {
-                btnMute.setIcon(new ImageIcon(getClass().getResource("/img/mute.png")));
-            }
-            else {
-                btnMute.setIcon(new ImageIcon(getClass().getResource("/img/unmute.png")));
-            }
+        int value = spinnerVolume.getValue();
+        player.setGain(value);
+
+        if (value == 0) {
+            btnMute.setIcon(new ImageIcon(getClass().getResource("/img/mute.png")));
+        } else {
+            btnMute.setIcon(new ImageIcon(getClass().getResource("/img/unmute.png")));
         }
     }//GEN-LAST:event_spinnerVolumeStateChanged
 
