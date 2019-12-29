@@ -38,10 +38,9 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.LookAndFeel;
+import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.plaf.metal.MetalLookAndFeel;
-import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 import mdlaf.utils.MaterialFontFactory;
 import org.apache.logging.log4j.status.StatusLogger;
 import org.muplayer.audio.model.TrackInfo;
@@ -154,6 +153,14 @@ public class FormPlayer extends javax.swing.JFrame {
         }
     }
     
+    private void refreshComponents(JComponent... component) {
+        if (component != null) {
+            for (int i = 0; i < component.length; i++) {
+                component[i].revalidate();
+            }
+        }
+    }
+    
     private void loadTrackInfo(TrackInfo track) {
         String title = TrackUtil.parseTitle(track.getTitle());
         String compoundedTitle;
@@ -192,7 +199,6 @@ public class FormPlayer extends javax.swing.JFrame {
         String currentPath = player.getCurrent().getDataSource().getPath();
         int indexOf = listSoundPaths.indexOf(currentPath);
         
-
         // cosas imbeciles que no se por que funcionan asi
         try {
             while (tblSongs.getRowCount() == 0) {}
@@ -207,6 +213,9 @@ public class FormPlayer extends javax.swing.JFrame {
         trackBar.setValue(0);
         trackBar.setMinimum(0);
         trackBar.setMaximum((int) track.getDuration());
+        
+        //refreshComponents(lblTitle, lblTitleFooter, lblArtist, lblAlbum, lblCover, trackBar, 
+        //        panelCenter, panelFooter, panelList, panelSong, rootPane);
     }
     
     private void configurePlayer() {
