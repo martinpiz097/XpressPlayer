@@ -86,7 +86,7 @@
         <dependency>
             <groupId>org.orangeplayer</groupId>
             <artifactId>muplayer</artifactId>
-            <version>2.0</version>
+            <version>RELEASE</version>
         </dependency>
         
         <!--<dependency>

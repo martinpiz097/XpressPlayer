@@ -615,17 +615,15 @@ public class FormPlayer extends javax.swing.JFrame {
     }//GEN-LAST:event_btnPrevActionPerformed
 
     private void btnMuteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMuteActionPerformed
-        if (player.isActive() && player.isPlaying()) {
-            if (player.isMute()) {
-                player.unmute();
-                //spinnerVolume.setValue(Math.round(player.getGain()));
-                btnMute.setIcon(new ImageIcon(getClass().getResource("/img/unmute.png")));
-            }
-            else {
-                player.mute();
-                //spinnerVolume.setValue(0);
-                btnMute.setIcon(new ImageIcon(getClass().getResource("/img/mute.png")));
-            }
+        if (player.isMute()) {
+            player.unmute();
+            //spinnerVolume.setValue(Math.round(player.getGain()));
+            btnMute.setIcon(new ImageIcon(getClass().getResource("/img/unmute.png")));
+        }
+        else {
+            player.mute();
+            //spinnerVolume.setValue(0);
+            btnMute.setIcon(new ImageIcon(getClass().getResource("/img/mute.png")));
         }
     }//GEN-LAST:event_btnMuteActionPerformed
 
