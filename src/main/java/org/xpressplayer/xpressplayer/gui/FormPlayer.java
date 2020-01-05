@@ -153,19 +153,19 @@ public class FormPlayer extends javax.swing.JFrame {
                 btnPrev.doClick();
             });
 
-            final JMenuItem itemExit = new JMenuItem(DEFAULT_IMAGE);
+            /*final JMenuItem itemExit = new JMenuItem(DEFAULT_IMAGE);
             itemNextSong.setText("Salir");
             itemNextSong.addActionListener((ActionEvent e) -> {
                 ResourceReader resourceReader = new ResourceReader(ResourceFiles.NOTIFICATION_MESSAGES);
                 notificationManager.sendNotification("XpressPlayer", 
                         resourceReader.getValue(ResourceKey.NOTIFICATION_EXIT_MESSAGE));
                 System.exit(0);
-            });
+            });*/
             
             trayMenu.add(itemOpen);
             trayMenu.add(itemNextSong);
             trayMenu.add(itemPrevSong);
-            trayMenu.add(itemExit);
+            //trayMenu.add(itemExit);
         }
     }
     
