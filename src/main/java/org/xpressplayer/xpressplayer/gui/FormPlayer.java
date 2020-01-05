@@ -6,6 +6,7 @@
 package org.xpressplayer.xpressplayer.gui;
 
 import com.sun.java.swing.plaf.gtk.GTKLookAndFeel;
+import dorkbox.systemTray.Menu;
 import dorkbox.systemTray.SystemTray;
 import java.awt.Color;
 import java.awt.Component;
@@ -52,6 +53,9 @@ import org.xpressplayer.xpressplayer.sys.FormObject;
 import org.xpressplayer.xpressplayer.sys.FormObjectManager;
 import org.xpressplayer.xpressplayer.sys.MusicNotificacionManager;
 import org.xpressplayer.xpressplayer.sys.NotificationManager;
+import org.xpressplayer.xpressplayer.sys.ResourceFiles;
+import org.xpressplayer.xpressplayer.sys.ResourceKey;
+import org.xpressplayer.xpressplayer.sys.ResourceReader;
 import org.xpressplayer.xpressplayer.sys.SystemTrayManager;
 import static org.xpressplayer.xpressplayer.sys.SystemTrayManager.DEFAULT_IMAGE;
 import org.xpressplayer.xpressplayer.util.ImageUtil;
@@ -104,7 +108,8 @@ public class FormPlayer extends javax.swing.JFrame {
             setLocationRelativeTo(null);
             
             UIUtil.setBackgrounds(WHITE, trackBar);
-            UIUtil.setBackgrounds(GRAY_300, panelFooter, panelFooterInfo, btnPlay, btnNext, btnPrev, btnMute, btnLoadMusic, lblTitleFooter);
+            UIUtil.setBackgrounds(GRAY_300, panelFooter, panelFooterInfo, btnPlay, 
+                    btnNext, btnPrev, btnMute, btnLoadMusic, lblTitleFooter);
             //UIUtil.setBorders(MaterialBorders.DEFAULT_SHADOW_BORDER, btnPlay, btnNext, btnPrev);
             
             lblTitle.setFont(new Font(MaterialFontFactory.REGULAR, Font.PLAIN, 18));
@@ -126,7 +131,9 @@ public class FormPlayer extends javax.swing.JFrame {
             SystemTray systemTray = systemTrayManager.getSystemTray();
             systemTray.setEnabled(false);
             
-            JMenuItem itemOpen = new JMenuItem(DEFAULT_IMAGE);
+            Menu trayMenu = systemTray.getMenu();
+            
+            final JMenuItem itemOpen = new JMenuItem(DEFAULT_IMAGE);
             itemOpen.setText("Abrir Reproductor");
             itemOpen.addActionListener((ActionEvent e) -> {
                 setLocationRelativeTo(null);
@@ -134,7 +141,31 @@ public class FormPlayer extends javax.swing.JFrame {
                 systemTrayManager.hideTray();
             });
             
-            systemTray.getMenu().add(itemOpen);
+            final JMenuItem itemNextSong = new JMenuItem(DEFAULT_IMAGE);
+            itemNextSong.setText("Canción Siguiente");
+            itemNextSong.addActionListener((ActionEvent e) -> {
+                btnNext.doClick();
+            });
+            
+            final JMenuItem itemPrevSong = new JMenuItem(DEFAULT_IMAGE);
+            itemPrevSong.setText("Canción Anterior");
+            itemPrevSong.addActionListener((ActionEvent e) -> {
+                btnPrev.doClick();
+            });
+
+            final JMenuItem itemExit = new JMenuItem(DEFAULT_IMAGE);
+            itemNextSong.setText("Salir");
+            itemNextSong.addActionListener((ActionEvent e) -> {
+                ResourceReader resourceReader = new ResourceReader(ResourceFiles.NOTIFICATION_MESSAGES);
+                notificationManager.sendNotification("XpressPlayer", 
+                        resourceReader.getValue(ResourceKey.NOTIFICATION_EXIT_MESSAGE));
+                System.exit(0);
+            });
+            
+            trayMenu.add(itemOpen);
+            trayMenu.add(itemNextSong);
+            trayMenu.add(itemPrevSong);
+            trayMenu.add(itemExit);
         }
     }
     
@@ -628,7 +659,9 @@ public class FormPlayer extends javax.swing.JFrame {
             }
             else {
                 setVisible(false);
-                notificationManager.sendNotification("XpressPlayer", "¡Gracias por utilizar XpressPlayer!");
+                ResourceReader resourceReader = new ResourceReader(ResourceFiles.NOTIFICATION_MESSAGES);
+                notificationManager.sendNotification("XpressPlayer", 
+                        resourceReader.getValue(ResourceKey.NOTIFICATION_EXIT_MESSAGE));
                 System.exit(0);
                 /*Timer timer = new Timer(3, (ActionEvent e) -> {
                 System.out.println("TIMER");
@@ -639,7 +672,8 @@ public class FormPlayer extends javax.swing.JFrame {
         }
         else {
             setVisible(false);
-            notificationManager.sendNotification("XpressPlayer", "¡Gracias por utilizar XpressPlayer!");
+            ResourceReader resourceReader = new ResourceReader(ResourceFiles.NOTIFICATION_MESSAGES);
+            notificationManager.sendNotification("XpressPlayer", resourceReader.getValue(ResourceKey.NOTIFICATION_EXIT_MESSAGE));
             System.exit(0);
         }
     }//GEN-LAST:event_formWindowClosing
