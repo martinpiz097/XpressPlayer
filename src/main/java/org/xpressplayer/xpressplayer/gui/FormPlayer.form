@@ -132,6 +132,9 @@
           <SubComponents>
             <Component class="javax.swing.JLabel" name="lblTitleFooter">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="new Font(UIUtil.FONT, Font.PLAIN, 18)" type="code"/>
+                </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
                 <Property name="text" type="java.lang.String" value="Titulo - Artista"/>
               </Properties>
@@ -143,6 +146,9 @@
             </Component>
             <Component class="javax.swing.JProgressBar" name="trackBar">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="new Font(UIUtil.FONT, Font.PLAIN, 14)" type="code"/>
+                </Property>
                 <Property name="string" type="java.lang.String" value="00:00"/>
                 <Property name="stringPainted" type="boolean" value="true"/>
               </Properties>
@@ -237,14 +243,17 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblTitle">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="new Font(UIUtil.FONT, Font.BOLD, 18)&#xa;" type="code"/>
+                </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
                 <Property name="text" type="java.lang.String" value="Nada en Reproducci&#xf3;n"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblArtist">
               <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Droid Sans" size="16" style="0"/>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="new Font(UIUtil.FONT, Font.PLAIN, 16)&#xa;" type="code"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
                 <Property name="text" type="java.lang.String" value="Nada en Reproducci&#xf3;n"/>
@@ -252,8 +261,8 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblAlbum">
               <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Droid Sans" size="14" style="0"/>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="new Font(UIUtil.FONT, Font.PLAIN, 14)&#xa;" type="code"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
                 <Property name="text" type="java.lang.String" value="Nada en Reproducci&#xf3;n"/>
@@ -305,6 +314,9 @@
               <SubComponents>
                 <Component class="javax.swing.JTable" name="tblSongs">
                   <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="new Font(UIUtil.FONT, Font.PLAIN, 18)" type="code"/>
+                    </Property>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                       <Table columnCount="1" rowCount="0">
                         <Column editable="true" title="Canciones" type="java.lang.Object"/>

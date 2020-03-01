@@ -40,7 +40,8 @@ public class NotificationManager {
 
     public NotificationManager() {
         sendNotification = new SendNotification()
-                .setApplication(getApplication());
+                .setApplication(getApplication())
+                .addConfigurationProperties(new NotificationConfiguration().getNotificationProperties());
         notifier = sendNotification.initNotifier();
     }
 

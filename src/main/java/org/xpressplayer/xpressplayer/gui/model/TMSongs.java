@@ -60,7 +60,7 @@ public class TMSongs implements TableModel {
     public String getColumnName(int columnIndex) {
         switch(columnIndex) {
             default:
-                return "Lista de Canciones";
+                return "Canciones";
         }
     }
 

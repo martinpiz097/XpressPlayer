@@ -43,6 +43,9 @@ import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.plaf.metal.MetalLookAndFeel;
+import javax.swing.table.DefaultTableColumnModel;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumnModel;
 import mdlaf.utils.MaterialFontFactory;
 import org.apache.logging.log4j.status.StatusLogger;
 import org.muplayer.audio.model.TrackInfo;
@@ -389,10 +392,12 @@ public class FormPlayer extends javax.swing.JFrame {
 
         panelFooterInfo.setLayout(new java.awt.BorderLayout(0, 8));
 
+        lblTitleFooter.setFont(new Font(UIUtil.FONT, Font.PLAIN, 18));
         lblTitleFooter.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTitleFooter.setText("Titulo - Artista");
         panelFooterInfo.add(lblTitleFooter, java.awt.BorderLayout.CENTER);
 
+        trackBar.setFont(new Font(UIUtil.FONT, Font.PLAIN, 14));
         trackBar.setString("00:00");
         trackBar.setStringPainted(true);
         trackBar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -441,14 +446,18 @@ public class FormPlayer extends javax.swing.JFrame {
         lblCover.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblCover.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/cover256.png"))); // NOI18N
 
+        lblTitle.setFont(new Font(UIUtil.FONT, Font.BOLD, 18)
+        );
         lblTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTitle.setText("Nada en Reproducción");
 
-        lblArtist.setFont(new java.awt.Font("Droid Sans", 0, 16)); // NOI18N
+        lblArtist.setFont(new Font(UIUtil.FONT, Font.PLAIN, 16)
+        );
         lblArtist.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblArtist.setText("Nada en Reproducción");
 
-        lblAlbum.setFont(new java.awt.Font("Droid Sans", 0, 14)); // NOI18N
+        lblAlbum.setFont(new Font(UIUtil.FONT, Font.PLAIN, 14)
+        );
         lblAlbum.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblAlbum.setText("Nada en Reproducción");
 
@@ -493,6 +502,7 @@ public class FormPlayer extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        tblSongs.setFont(new Font(UIUtil.FONT, Font.PLAIN, 18));
         tblSongs.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 

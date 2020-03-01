@@ -20,6 +20,8 @@ public class UIUtil {
     public static final int DEFAULT_ROW_HEIGHT = 60;
     public static final int DEFAULT_ROW_MARGIN = 10;
     
+    public static final String FONT = "Sans Serif";
+    
     public static void setBackgrounds(Color color, JComponent... components) {
         if (components != null && components.length > 0) {
             for (int i = 0; i < components.length; i++) {
